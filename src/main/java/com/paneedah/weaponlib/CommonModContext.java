@@ -27,12 +27,10 @@ import com.paneedah.weaponlib.melee.*;
 import com.paneedah.mwc.network.TypeRegistry;
 import com.paneedah.weaponlib.state.Permit;
 import com.paneedah.weaponlib.state.StateManager;
-import com.paneedah.weaponlib.tracking.SyncPlayerEntityTrackerMessage;
-import com.paneedah.weaponlib.tracking.SyncPlayerEntityTrackerMessageMessageHandler;
 import com.paneedah.weaponlib.vehicle.network.VehicleControlPacket;
 import com.paneedah.weaponlib.vehicle.network.VehicleControlPacketHandler;
-import com.paneedah.weaponlib.vehicle.network.VehicleInteractPHandler;
-import com.paneedah.weaponlib.vehicle.network.VehicleInteractPacket;
+import com.paneedah.mwc.network.handlers.VehicleInteractPHandler;
+import com.paneedah.mwc.network.messages.VehicleInteractPacket;
 import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -224,7 +222,7 @@ public class CommonModContext implements ModContext {
 
 		channel.registerMessage(new MeleeAttackMessageHandler(meleeAttackAspect), MeleeAttackMessage.class, 16, Side.SERVER);
 
-		channel.registerMessage(new SyncPlayerEntityTrackerMessageMessageHandler(this), SyncPlayerEntityTrackerMessage.class, 17, Side.CLIENT);
+		channel.registerMessage(new LivingEntityTrackerMessageMessageHandler(), LivingEntityTrackerMessage.class, 17, Side.CLIENT);
 
 		channel.registerMessage(new SpawnParticleMessageHandler(this), SpawnParticleMessage.class, 18, Side.CLIENT);
 
@@ -240,9 +238,9 @@ public class CommonModContext implements ModContext {
 		
 	    channel.registerMessage(new ExposureMessageHandler(), ExposureMessage.class, 23, Side.CLIENT);
 		
-		channel.registerMessage(new EntityControlHandler(this), EntityControlMessage.class, 24, Side.CLIENT);
+		channel.registerMessage(new EntityControlClientMessageHandler(), EntityControlClientMessage.class, 24, Side.CLIENT);
 		
-		channel.registerMessage(new EntityControlHandler(this), EntityControlMessage.class, 25, Side.SERVER);
+		channel.registerMessage(new EntityControlServerMessageHandler(this), EntityControlServerMessage.class, 25, Side.SERVER);
 		
 		channel.registerMessage(new EntityInventorySyncHandler(this), EntityInventorySyncMessage.class, 26, Side.CLIENT);
 		
@@ -254,7 +252,7 @@ public class CommonModContext implements ModContext {
 
         channel.registerMessage(new VehicleClientMessageHandler(), VehicleClientMessage.class, 35, Side.CLIENT);
         
-        channel.registerMessage(new VehicleInteractPHandler(this), VehicleInteractPacket.class, 36, Side.SERVER);
+        channel.registerMessage(new VehicleInteractPHandler(), VehicleInteractPacket.class, 36, Side.SERVER);
         
         channel.registerMessage(new MuzzleFlashMessageHandler(), MuzzleFlashMessage.class, 37, Side.CLIENT);
         
@@ -262,22 +260,19 @@ public class CommonModContext implements ModContext {
         
         channel.registerMessage(new BalancePackClientMessageHandler(), BalancePackClientMessage.class, 39, Side.CLIENT);
 
-        channel.registerMessage(new HeadshotSFXMessageHandler(), HeadshotSFXMessage.class, 40, Side.CLIENT);
+        channel.registerMessage(new BloodClientMessageHandler(), BloodClientMessage.class, 40, Side.CLIENT);
+        
+        channel.registerMessage(new OpenDoorMessageHandler(), OpenDoorMessage.class, 41, Side.SERVER);
 
-        channel.registerMessage(new BloodClientMessageHandler(), BloodClientMessage.class, 41, Side.CLIENT);
+        channel.registerMessage(new WorkbenchServerMessageHandler(this), WorkbenchServerMessage.class, 42, Side.SERVER);
         
-        channel.registerMessage(new OpenDoorMessageHandler(), OpenDoorMessage.class, 42, Side.SERVER);
-
-        channel.registerMessage(new WorkbenchServerMessageHandler(this), WorkbenchServerMessage.class, 43, Side.SERVER);
+        channel.registerMessage(new WorkbenchClientMessageHandler(), WorkbenchClientMessage.class, 43, Side.CLIENT);
         
-        channel.registerMessage(new WorkbenchClientMessageHandler(), WorkbenchClientMessage.class, 44, Side.CLIENT);
+        channel.registerMessage(new CraftingClientMessageHandler(this), CraftingClientMessage.class, 44, Side.CLIENT);
         
-        channel.registerMessage(new CraftingClientMessageHandler(this), CraftingClientMessage.class, 45, Side.CLIENT);
+        channel.registerMessage(new CraftingServerMessageHandler(this), CraftingServerMessage.class, 45, Side.SERVER);
         
-        channel.registerMessage(new CraftingServerMessageHandler(this), CraftingServerMessage.class, 46, Side.SERVER);
-        
-        channel.registerMessage(new EntityPickupMessageHandler(), EntityPickupMessage.class, 47, Side.SERVER);
-        
+        channel.registerMessage(new EntityPickupMessageHandler(), EntityPickupMessage.class, 46, Side.SERVER);
         
 		CommonEventHandler serverHandler = new CommonEventHandler(this);
         MinecraftForge.EVENT_BUS.register(serverHandler);
@@ -488,13 +483,8 @@ public class CommonModContext implements ModContext {
 		throw new IllegalStateException();
 	}
 
-	@Override
-	public StatusMessageCenter getStatusMessageCenter() {
-		throw new IllegalStateException();
-	}
 
-
-	@Override
+    @Override
 	public RecipeManager getRecipeManager() {
 		return recipeManager;
 	}

@@ -1,9 +1,7 @@
 package com.paneedah.mwc.network.messages;
 
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.paneedah.mwc.network.CompressionUtil;
-import com.paneedah.weaponlib.config.BalancePackManager.BalancePack;
+import com.paneedah.weaponlib.tracking.LivingEntityTracker;
 import io.netty.buffer.ByteBuf;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,12 +11,15 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public final class BalancePackClientMessage implements IMessage {
+public final class LivingEntityTrackerMessage implements IMessage {
 
-    private BalancePack balancePack;
+    private LivingEntityTracker playerEntityTracker;
+    private String statusMessage;
 
     @Override
     public void fromBytes(final ByteBuf byteBuf) {
+        playerEntityTracker = LivingEntityTracker.read(byteBuf);
+
         if (!byteBuf.readBoolean())
             return;
 
@@ -26,16 +27,18 @@ public final class BalancePackClientMessage implements IMessage {
         for (int i = 0; i < bytes.length; ++i)
             bytes[i] = byteBuf.readByte();
 
-        balancePack = BalancePack.fromJSONObject(new GsonBuilder().create().fromJson(CompressionUtil.decompressString(bytes), JsonObject.class));
+        statusMessage = CompressionUtil.decompressString(bytes);
     }
 
     @Override
     public void toBytes(final ByteBuf byteBuf) {
-        byteBuf.writeBoolean(balancePack != null);
-        if (balancePack == null)
+        playerEntityTracker.write(byteBuf);
+
+        byteBuf.writeBoolean(statusMessage != null);
+        if (statusMessage == null)
             return;
 
-        final byte[] bytes = CompressionUtil.compressString(balancePack.toJSONObject().toString());
+        final byte[] bytes = CompressionUtil.compressString(statusMessage);
         byteBuf.writeInt(bytes.length);
         byteBuf.writeBytes(bytes);
     }

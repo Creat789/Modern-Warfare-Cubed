@@ -44,6 +44,7 @@ and this project follows to [Ragnarök Versioning Convention](https://gist.githu
 - GitHub URL in `MCmod.info`
 - Proning in single player mode (**Note: Currently unanimated; player will appear standing**)
 - Custom death Messages when shot with a gun
+- Added status messages for `No ammunition`, `No magazine`, `Tracking`, `Firearm mode`, `Zoom` and `Explodes in`
 
 ### Changed
 
@@ -160,6 +161,7 @@ and this project follows to [Ragnarök Versioning Convention](https://gist.githu
 
 ### Removed
 
+- Removed headshot mechanic, it was currently broken and will come back in the future
 - Removed all arcade guns (These will be moved to a sister mod at a later time)
 - Removed the SA80
 - Removed the mission system
@@ -191,6 +193,13 @@ and this project follows to [Ragnarök Versioning Convention](https://gist.githu
 - [WIP] Renamed unintelligible variables to more readable names
 - Overhauled the internal process of item and block creation
 - Changed name and mod id
+
+### Balance Pack
+
+The new balance pack manager version is `1.3`. 
+
+- Added `inaccuracy`
+- Removed `headshotMultiplier`
 
 ##### Credits
 

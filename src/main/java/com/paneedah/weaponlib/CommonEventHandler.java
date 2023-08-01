@@ -3,9 +3,7 @@ package com.paneedah.weaponlib;
 import com.paneedah.mwc.capabilities.EquipmentCapability;
 import com.paneedah.mwc.equipment.inventory.EquipmentInventory;
 import com.paneedah.mwc.items.equipment.carryable.ItemBackpack;
-import com.paneedah.mwc.network.messages.CraftingClientMessage;
-import com.paneedah.mwc.network.messages.ExposureMessage;
-import com.paneedah.mwc.network.messages.HeadshotSFXMessage;
+import com.paneedah.mwc.network.messages.*;
 import com.paneedah.weaponlib.compatibility.CompatibleExposureCapability;
 import com.paneedah.weaponlib.compatibility.CompatibleExtraEntityFlags;
 import com.paneedah.weaponlib.compatibility.CompatiblePlayerEntityTrackerProvider;
@@ -14,10 +12,7 @@ import com.paneedah.weaponlib.crafting.CraftingFileManager;
 import com.paneedah.weaponlib.electronics.ItemHandheld;
 import com.paneedah.weaponlib.inventory.EntityInventorySyncMessage;
 import com.paneedah.weaponlib.jim.util.ByteArrayUtils;
-import com.paneedah.weaponlib.jim.util.HitUtil;
-import com.paneedah.mwc.network.messages.BalancePackClientMessage;
-import com.paneedah.weaponlib.tracking.PlayerEntityTracker;
-import com.paneedah.weaponlib.tracking.SyncPlayerEntityTrackerMessage;
+import com.paneedah.weaponlib.tracking.LivingEntityTracker;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,11 +20,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -47,6 +40,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
+import static com.paneedah.mwc.network.handlers.CraftingClientMessageHandler.RECEIVE_HASH;
 import static com.paneedah.mwc.utils.ModReference.ID;
 import static com.paneedah.mwc.utils.ModReference.LOG;
 
@@ -112,7 +106,7 @@ public class CommonEventHandler {
             if (effectiveUpdate)
                 CompatibleExposureCapability.updateExposures(livingUpdateEvent.getEntity(), exposures);
 
-            //long lastExposuresUpdateTimestamp = CompatibleExposureCapability.getLastUpdateTimestamp(livingUpdateEvent.getEntity());
+            //final long lastExposuresUpdateTimestamp = CompatibleExposureCapability.getLastUpdateTimestamp(livingUpdateEvent.getEntity());
             final long lastSyncTimestamp = CompatibleExposureCapability.getLastSyncTimestamp(livingUpdateEvent.getEntity());
             if (lastSyncTimestamp + 5 < livingUpdateEvent.getEntity().world.getTotalWorldTime() && livingUpdateEvent.getEntity() instanceof EntityPlayerMP /*&& lastExposuresUpdateTimestamp > lastSyncTimestamp */) {
                 modContext.getChannel().sendTo(new ExposureMessage(exposures), (EntityPlayerMP) livingUpdateEvent.getEntity());
@@ -158,12 +152,12 @@ public class CommonEventHandler {
             LOG.debug("Player {} joined the world", event.getEntity());
 
             final EntityPlayer player = (EntityPlayer)entity;
-            final PlayerEntityTracker tracker = PlayerEntityTracker.getTracker(player);
+            final LivingEntityTracker tracker = LivingEntityTracker.getTracker(player);
 
             if (tracker != null)
-                modContext.getChannel().sendTo(new SyncPlayerEntityTrackerMessage(tracker), (EntityPlayerMP)entity);
+                modContext.getChannel().sendTo(new LivingEntityTrackerMessage(tracker, null), (EntityPlayerMP)entity);
 
-            modContext.getChannel().sendTo(new EntityControlMessage(player, CompatibleExtraEntityFlags.getFlags(player)), (EntityPlayerMP)entity);
+            modContext.getChannel().sendTo(new EntityControlServerMessage(player, CompatibleExtraEntityFlags.getFlags(player)), (EntityPlayerMP)entity);
             modContext.getChannel().sendToAll(new EntityInventorySyncMessage(entity, EquipmentCapability.getInventory(player), false));
         }
     }
@@ -178,14 +172,14 @@ public class CommonEventHandler {
         if (event.getTarget() instanceof EntityProjectile || event.getTarget() instanceof EntityBounceable)
             return;
 
-        PlayerEntityTracker tracker = PlayerEntityTracker.getTracker((EntityPlayer) event.getEntity());
+        LivingEntityTracker tracker = LivingEntityTracker.getTracker((EntityPlayer) event.getEntity());
         if (tracker != null && tracker.updateTrackableEntity(event.getTarget())) {
             LOG.debug("Player {} started tracking {} with uuid {}", event.getEntityPlayer(), event.getTarget(), event.getTarget().getUniqueID());
-            modContext.getChannel().sendTo(new SyncPlayerEntityTrackerMessage(tracker), (EntityPlayerMP) event.getEntityPlayer());
+            modContext.getChannel().sendTo(new LivingEntityTrackerMessage(tracker, null), (EntityPlayerMP) event.getEntityPlayer());
 
             final EntityPlayer player = (EntityPlayer) event.getEntity();
 
-            modContext.getChannel().sendTo(new EntityControlMessage(player, CompatibleExtraEntityFlags.getFlags(player)), (EntityPlayerMP) event.getEntity());
+            modContext.getChannel().sendTo(new EntityControlServerMessage(player, CompatibleExtraEntityFlags.getFlags(player)), (EntityPlayerMP) event.getEntity());
         }
     }
 
@@ -194,7 +188,7 @@ public class CommonEventHandler {
         if(playerStopTrackingEvent.getTarget() instanceof EntityProjectile || playerStopTrackingEvent.getTarget() instanceof EntityBounceable) {
             return;
         }
-        PlayerEntityTracker tracker = PlayerEntityTracker.getTracker((EntityPlayer) playerStopTrackingEvent.getEntity());
+        LivingEntityTracker tracker = LivingEntityTracker.getTracker((EntityPlayer) playerStopTrackingEvent.getEntity());
         if (tracker != null && tracker.updateTrackableEntity(playerStopTrackingEvent.getTarget())) {
             log.debug("Player {} stopped tracking {}", playerStopTrackingEvent.getEntityPlayer(), playerStopTrackingEvent.getTarget());
             modContext.getChannel().sendTo(new SyncPlayerEntityTrackerMessage(tracker),
@@ -202,7 +196,7 @@ public class CommonEventHandler {
 
             EntityPlayer player = (EntityPlayer) playerStopTrackingEvent.getEntity();
             modContext.getChannel().sendTo(
-                    new EntityControlMessage(player, CompatibleExtraEntityFlags.getFlags(player)),
+                    new EntityControlServerMessage(player, CompatibleExtraEntityFlags.getFlags(player)),
                     (EntityPlayerMP)playerStopTrackingEvent.getEntity());
         }
     }*/
@@ -232,17 +226,6 @@ public class CommonEventHandler {
             final ItemStack[] itemStacks = new ItemStack[]{equipmentInventory.getStackInSlot(1)};
             stackList.addAll(Arrays.asList(itemStacks));
             event.setAmount((float) (event.getAmount() * (1 - ((ItemVest) equipmentInventory.getStackInSlot(1).getItem()).getDamageBlocked())));
-        }
-
-        final DamageSource source = event.getSource();
-
-        if (source.getImmediateSource() instanceof EntityProjectile) {
-            final RayTraceResult hit = HitUtil.traceProjectilehit(source.getImmediateSource(), entityLiving);
-            if (hit != null && hit.hitVec.distanceTo(entityLiving.getPositionEyes(1.0f)) < 0.6f) {
-                event.setAmount((float) (event.getAmount() * BalancePackManager.getHeadshotMultiplier()));
-                if (source.getTrueSource() instanceof EntityPlayer)
-                    modContext.getChannel().sendTo(new HeadshotSFXMessage(), (EntityPlayerMP) source.getTrueSource());
-            }
         }
     }
 
@@ -345,6 +328,6 @@ public class CommonEventHandler {
         if (baos == null) return;
 
         // Send the player the hash
-        getModContext().getChannel().sendTo(new CraftingClientMessage(0, baos), (EntityPlayerMP) player);
+        getModContext().getChannel().sendTo(new CraftingClientMessage(RECEIVE_HASH, baos), (EntityPlayerMP) player);
     }
 }
