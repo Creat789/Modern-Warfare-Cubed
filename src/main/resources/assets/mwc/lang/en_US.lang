@@ -267,7 +267,151 @@ item.malyuk.name=Malyuk
 item.turret.name=Automated Turret
 item.turretupgraded.name=Automated Turret vers.2
 item.turretsilenced.name=Automated Turret vers.SA
+item.plan_ar15.name=AR15
+item.plan_m16a1.name=M16A1
+item.plan_m16a4.name=M16A4
+item.plan_m38.name=M38
+item.plan_acr.name=ACR
+item.plan_ngswr.name=NGSW-R
+item.plan_sigmcx.name=SIG MCX
+item.plan_aachoneybadger.name=AAC Honey Badger
 
+item.plan_ak47.name=AK-47
+item.plan_ak15.name=AK-15
+item.plan_malyuk.name=Malyuk
+item.plan_ak12_kal.name=AK-12 (Kalashnikov Concern)
+item.plan_ak12.name=AK-12
+item.plan_ak101.name=AK-101
+item.plan_ak74.name=AK-74
+item.plan_kbp9a91.name=KBP 9A-91
+item.plan_k2c1.name=K2C1
+
+item.plan_scarh.name=Scar-H
+item.plan_scarl.name=Scar-L
+item.plan_sig556.name=SIG 556
+item.plan_cz805bren.name=CZ 805 Bren
+item.plan_arx160.name=ARX 160
+item.plan_type20.name=Type 20
+item.plan_famasf1.name=FAMAS F1
+item.plan_g36c.name=G36C
+item.plan_g11.name=G11
+
+item.plan_f2000.name=F2000
+
+item.plan_aug.name=Steyr AUG
+item.plan_stg44.name=StG 44
+item.plan_m1garand.name=M1 Garand
+item.plan_m1941johnsonrifle.name=M1941 Johnson Rifle
+item.plan_g43gewehr.name=G43 Gewehr
+item.plan_m1carbine.name=M1 Carbine
+item.plan_m1873.name=M1873
+item.plan_maresleg.name=Mare's Leg
+
+item.plan_ar10supersass.name=AR-10 Super SASS
+item.plan_beowulf50cal.name=Beowulf .50 Cal
+item.plan_m110.name=M110
+item.plan_zbroyarz10.name=Zbroyar Z-10
+item.plan_hk417.name=HK417
+item.plan_mk14ebr.name=Mk14 EBR
+item.plan_fnfal.name=FNFAL
+item.plan_g3.name=G3
+
+item.plan_springfield.name=Springfield
+
+item.plan_m82.name=M82
+item.plan_m40a6.name=M40A6
+item.plan_svd_dragunov.name=SVDS Dragunov
+item.plan_vss_vintorez.name=VSS Vintorez
+
+item.plan_as50.name=AS50
+item.plan_ssg08.name=SSG08
+item.plan_m200intervention.name=M200 Intervention
+item.plan_dsr1.name=DSR-1
+item.plan_l96a1.name=L96A1
+
+item.plan_remington700.name=Remington 700
+item.plan_sv98.name=SV98
+item.plan_kragjorgensen.name=Krag-Jorgensen
+item.plan_kar98k.name=Kar98k
+
+item.plan_mp7.name=MP7
+item.plan_mp5a5.name=MP5A5
+item.plan_p90.name=P90
+item.plan_mac10.name=MAC-10
+item.plan_krissvector.name=Kriss Vector
+item.plan_ump45.name=UMP45
+item.plan_scorpionevo3a1.name=Scorpion EVO 3 A1
+item.plan_mpx.name=MPX
+item.plan_fmg9.name=FMG-9
+item.plan_uzi.name=Uzi
+
+item.plan_s710tricun.name=S710 Tricun
+item.plan_apc9.name=APC9
+item.plan_kedr.name=Kedr
+item.plan_mp40.name=MP40
+
+item.plan_m1928thompson.name=M1928 Thompson
+
+item.plan_origin12.name=Origin 12
+item.plan_saiga12.name=Saiga 12
+item.plan_spas12.name=SPAS-12
+item.plan_m1014.name=M1014
+item.plan_supernova.name=Supernova
+item.plan_remington870.name=Remington 870
+item.plan_ks23.name=KS-23
+item.plan_m1897.name=M1897
+item.plan_hs12.name=HS12
+item.plan_mp43e.name=MP43E
+item.plan_browningauto5.name=Browning Auto-5
+
+item.plan_m60e4.name=M60E4
+item.plan_mg42.name=MG42
+item.plan_mg34.name=MG34
+item.plan_dp28.name=DP-28
+item.plan_brenmkii.name=Bren MkII
+item.plan_m1941johnson.name=M1941 Johnson
+
+item.plan_m249.name=M249
+item.plan_stonera1.name=Stoner A1
+item.plan_m134.name=M134
+
+item.plan_python.name=Python
+item.plan_taurusraginghunter.name=Taurus Raging Hunter
+item.plan_sw500magnum.name=S&W 500 Magnum
+item.plan_chiapparhino.name=Chiappa Rhino
+
+item.plan_aps.name=APS
+item.plan_makarovpm.name=Makarov PM
+
+item.plan_deserteagle.name=Desert Eagle
+item.plan_glock18c.name=Glock 18C
+item.plan_glock19.name=Glock 19
+item.plan_fiveseven.name=FN Five-seven
+item.plan_m9a1.name=M9A1
+item.plan_p226.name=P226
+item.plan_mp443.name=MP443
+item.plan_vp70.name=VP70
+item.plan_m17.name=M17
+
+item.plan_sccycpx2.name=SCCY CPX-2
+item.plan_hk_p12.name=HK P12
+
+item.plan_mas21.name=MAS 21
+item.plan_g2contender.name=G2 Contender
+item.plan_m712.name=M712
+item.plan_m1911.name=M1911
+item.plan_browninghipower.name=Browning Hi-Power
+
+item.plan_m202.name=M202
+item.plan_rpg7.name=RPG-7
+
+item.plan_m32mgl.name=M32 MGL
+item.plan_gl06.name=GL06
+item.plan_m79.name=M79
+item.plan_chainsaw.name=Chainsaw
+item.plan_turretgun.name=Turret Gun
+item.plan_turretgunupgraded.name=Turret Gun Upgraded
+item.plan_turretgunsilenced.name=Turret Gun Silenced
 
 item.mwc_FiveSevenMag.name=20rnd 5.7x28mm Five-Seven Magazine
 item.mwc_KedrMag_2.name=20rnd 9x19mm Magazine (Kedr)

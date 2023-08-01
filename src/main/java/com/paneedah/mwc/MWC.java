@@ -47,6 +47,7 @@ public final class MWC {
 	public static final CreativeTabs THROWABLES_TAB = new GrenadesTab(CreativeTabs.getNextID(), "throwables");
 	public static final CreativeTabs PROPS_TAB = new PropsTab(CreativeTabs.getNextID(), "props");
 	public static final CreativeTabs BLOCKS_AND_INGOTS_TAB = new BlocksTab(CreativeTabs.getNextID(), "blocksAndIngots");
+    public static final CreativeTabs PLAN_TAB = new PlanTab(CreativeTabs.getNextID(), "plan");
 
     // Todo: Make this configurable via the future YAML config system from FBP, or Valkyrie integration, the later would be best.
     public static int bulletHitParticleMult = 6;

@@ -17,6 +17,11 @@ public class ItemBase extends Item {
         setMaxStackSize(stackSize);
         // Might want to change that?
         setCreativeTab(MWC.BLOCKS_AND_INGOTS_TAB);
+        if (registryName.startsWith("plan")) {
+            setCreativeTab(MWC.PLAN_TAB);
+        } else {
+            setCreativeTab(MWC.BLOCKS_AND_INGOTS_TAB);
+        }
     }
 
     public void setStackSize(int stackSize) {

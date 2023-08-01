@@ -31,7 +31,7 @@ public class Armors {
     public static Item KhakiJeansboots;
     
     public static Item Ghilliechest;
-    public static Item Ghillieboots;
+    public static Item Ghilliepants;
     public static Item Ghilliehelmet;
     
     public static CustomArmor GasMaskM40;
@@ -192,7 +192,7 @@ public class Armors {
 
         Armors.Ghilliehelmet = ghillieArmorBuilder.buildHelmet(modContext);
         Armors.Ghilliechest = ghillieArmorBuilder.buildChest(modContext.isClient());
-        Armors.Ghillieboots = ghillieArmorBuilder.buildBoots(modContext.isClient());
+        Armors.Ghilliepants = ghillieArmorBuilder.buildBoots(modContext.isClient());
 
         Builder swatArmorBuilder = new CustomArmor.Builder().withMaterial(Armors.Marine)
                 .withUnlocalizedName("Swat")

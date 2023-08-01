@@ -20,7 +20,7 @@ public class Backpacks {
 
     public static Item f5SwitchbladeBackpack;
 
-    public static Item duffleBag;
+    public static Item duffleBag, duffleBag_green, duffleBag_red;
 
     public static void init() {
 
@@ -119,6 +119,38 @@ public class Backpacks {
                 .withSize(24)
                 .withModel("Dufflebag")
                 .withTexture("equipment/carryable/backpacks/duffle_bag")
+                .withEntityPositioning(itemStack -> new Transform()
+                        .withPosition(-0.5F, -1.9F, 0.5F)
+                        .withScale(1, 1, 1)
+                        .doGLDirect())
+                .withInventoryPositioning(itemStack -> new Transform()
+                        .withPosition(-0.15, -3.65, 0.35)
+                        .withRotation(18, -50, 0)
+                        .withScale(2.4, 2.4, 2.4)
+                        .doGLDirect())
+                .build();
+
+        duffleBag_green = new ItemBackpack.Builder()
+                .withName("duffle_bag")
+                .withSize(24)
+                .withModel("Dufflebag")
+                .withTexture("equipment/carryable/backpacks/duffle_bag_green")
+                .withEntityPositioning(itemStack -> new Transform()
+                        .withPosition(-0.5F, -1.9F, 0.5F)
+                        .withScale(1, 1, 1)
+                        .doGLDirect())
+                .withInventoryPositioning(itemStack -> new Transform()
+                        .withPosition(-0.15, -3.65, 0.35)
+                        .withRotation(18, -50, 0)
+                        .withScale(2.4, 2.4, 2.4)
+                        .doGLDirect())
+                .build();
+
+        duffleBag_red = new ItemBackpack.Builder()
+                .withName("duffle_bag")
+                .withSize(24)
+                .withModel("Dufflebag")
+                .withTexture("equipment/carryable/backpacks/duffle_bag_red")
                 .withEntityPositioning(itemStack -> new Transform()
                         .withPosition(-0.5F, -1.9F, 0.5F)
                         .withScale(1, 1, 1)

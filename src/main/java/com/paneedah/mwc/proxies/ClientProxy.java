@@ -77,7 +77,7 @@ public class ClientProxy extends CommonProxy {
 
         modelMesher.register(Armors.Ghilliehelmet, 0, new ModelResourceLocation(ID + ":ghillie_helmet", "inventory"));
         modelMesher.register(Armors.Ghilliechest, 0, new ModelResourceLocation(ID + ":ghillie_chest", "inventory"));
-        modelMesher.register(Armors.Ghillieboots, 0, new ModelResourceLocation(ID + ":ghillie_boots", "inventory"));
+        modelMesher.register(Armors.Ghilliepants, 0, new ModelResourceLocation(ID + ":ghillie_pants", "inventory"));
 
         modelMesher.register(Armors.Blackcamochest, 0, new ModelResourceLocation(ID + ":blackcamo_chest", "inventory"));
         modelMesher.register(Armors.Forestchest, 0, new ModelResourceLocation(ID + ":forest_chest", "inventory"));

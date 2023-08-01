@@ -49,7 +49,7 @@ public class M200InterventionFactory implements GunFactory {
         .withCreativeTab(MWC.WEAPONS_TAB)
         .withInformationProvider(stack -> Arrays.asList(
         "Type: Sniper Rifle",
-        "Damage: 20", 
+        "Damage: 25",
         "Cartridge: .408 Cheyenne Tactical",
         "Fire Rate: BOLT ACTION",
         "Rate of Fire: 16/100",
@@ -2392,7 +2392,7 @@ public class M200InterventionFactory implements GunFactory {
                     )
                     
             .build())
-        .withSpawnEntityDamage(20f)
+        .withSpawnEntityDamage(25f)
         .withSpawnEntityGravityVelocity(0f)
 //        .withSpawnEntitySpeed(80f)
         
